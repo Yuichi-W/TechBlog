@@ -1,9 +1,10 @@
-import { Header } from '../components/header'
+import { Format } from '../layout/format'
+import { Section1 } from '../components/section1'
 
 export default function Home() {
   return (
-    <div>
-      <Header />
-    </div>
+    <Format>
+      <Section1 />
+    </Format>
   )
 }

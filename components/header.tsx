@@ -1,4 +1,6 @@
-import { ImFacebook, ImTwitter, ImGithub } from "react-icons/im";
+import { ImTwitter, ImGithub } from "react-icons/im";
+import { SiQiita } from "react-icons/si";
+import { AiFillUpSquare } from "react-icons/ai";
 
 export const Header = () => {
     return (
@@ -8,13 +10,14 @@ export const Header = () => {
                     <input type="text" className="input-text" placeholder="Search..." />
                 </div>
                 <div className="shrink w-80 sm:order-2">
-                    <a className="font-bold uppercase text-3xl" >Design</a>
+                    <a href="/" className="font-bold uppercase text-3xl" >Design</a>
                 </div>
                 <div className="w-96 order-3 flex justify-center">
                     <div className="flex gap-6">
-                        <a><ImFacebook color="#888888" /></a>
-                        <a><ImTwitter color="#888888" /></a>
-                        <a><ImGithub color="#888888" /></a>
+                        <a href="https://twitter.com/piki_maru_ten"><ImTwitter color="#888888" /></a>
+                        <a href="https://github.com/Yuichi-W"><ImGithub color="#888888" /></a>
+                        <a href="https://qiita.com/pikimaru"><SiQiita color="#888888" /></a>
+                        <a href="https://teratail.com/users/pikimaru"><AiFillUpSquare color="#888888" /></a>
                     </div>
                 </div>
             </div>
