@@ -1,6 +1,7 @@
 import { ImTwitter, ImGithub } from "react-icons/im";
 import { SiQiita } from "react-icons/si";
 import { AiFillUpSquare } from "react-icons/ai";
+import Link from "next/link";
 
 export const Header = () => {
     return (
@@ -14,10 +15,18 @@ export const Header = () => {
                 </div>
                 <div className="w-96 order-3 flex justify-center">
                     <div className="flex gap-6">
-                        <a href="https://twitter.com/piki_maru_ten"><ImTwitter color="#888888" /></a>
-                        <a href="https://github.com/Yuichi-W"><ImGithub color="#888888" /></a>
-                        <a href="https://qiita.com/pikimaru"><SiQiita color="#888888" /></a>
-                        <a href="https://teratail.com/users/pikimaru"><AiFillUpSquare color="#888888" /></a>
+                        <Link href={"https://twitter.com/piki_maru_ten"}>
+                            <ImTwitter color="#888888" />
+                        </Link>
+                        <Link href={"https://github.com/Yuichi-W"}>
+                            <ImGithub color="#888888" />
+                        </Link>
+                        <Link href={"https://qiita.com/pikimaru"}>
+                            <SiQiita color="#888888" />
+                        </Link>
+                        <Link href={"https://teratail.com/users/pikimaru"}>
+                            <AiFillUpSquare color="#888888" />
+                        </Link>
                     </div>
                 </div>
             </div>
