@@ -17,16 +17,16 @@ export const Header = () => {
                 </div>
                 <div className="w-96 order-3 flex justify-center">
                     <div className="flex gap-6">
-                        <Link href={"https://twitter.com/piki_maru_ten"}>
+                        <Link href="https://twitter.com/piki_maru_ten" target="_blank" rel="noopener noreferrer">
                             <ImTwitter color="#888888" />
                         </Link>
-                        <Link href={"https://github.com/Yuichi-W"}>
+                        <Link href="https://github.com/Yuichi-W" target="_blank" rel="noopener noreferrer">
                             <ImGithub color="#888888" />
                         </Link>
-                        <Link href={"https://qiita.com/pikimaru"}>
+                        <Link href="https://qiita.com/pikimaru" target="_blank" rel="noopener noreferrer">
                             <SiQiita color="#888888" />
                         </Link>
-                        <Link href={"https://teratail.com/users/pikimaru"}>
+                        <Link href="https://teratail.com/users/pikimaru" target="_blank" rel="noopener noreferrer">
                             <AiFillUpSquare color="#888888" />
                         </Link>
                     </div>

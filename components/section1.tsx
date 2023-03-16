@@ -53,7 +53,7 @@ function Slide({ src }: SlideProps){
     return (
         <div className="grid md:grid-cols-2">
             <div className="image">
-                <Link href={"/"}>
+                <Link href={"/posts/page"}>
                     <Image src={ src } width={640} height={853} alt="PC Image" />
                 </Link>
             </div>
