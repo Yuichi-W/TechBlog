@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { BlogPost } from "../types/blogPost";
 
 const baseURL = "http://localhost:3000/";
 
 export const Fetcher = ({ endpoint }: { endpoint: string }) => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<BlogPost[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
