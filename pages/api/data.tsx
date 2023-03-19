@@ -5,7 +5,7 @@ export default {
             title: "API取得ブログタイトル(Trending)",
             subtitle: "サブタイトル",
             category: "ビジネス（カテゴリ）, 旅行（カテゴリ）",
-            img : "/images/img1.jpg",
+            img : "/images/shiba.jpg",
             description: `
             ブログコンテンツテキスト＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ブログコンテンツテキスト＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             `,
@@ -21,7 +21,7 @@ export default {
             title: "Your most unhappy customers are your greatest source of learning",
             subtitle: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
             category: "Business, Travel",
-            img : "/images/img2.jpg",
+            img : "/images/shiba1.jpg",
             description: `
             Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind 
             text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
@@ -38,7 +38,7 @@ export default {
             title: "Your most unhappy customers are your greatest source of learning",
             subtitle: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
             category: "Business, Travel",
-            img : "/images/img3.png",
+            img : "/images/shiba2.jpg",
             description: `
             Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind 
             text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
@@ -55,7 +55,7 @@ export default {
             title: "Your most unhappy customers are your greatest source of learning",
             subtitle: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
             category: "Business, Travel",
-            img : "/images/img4.png",
+            img : "/images/shiba3.jpg",
             description: `
             Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind 
             text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
@@ -72,7 +72,7 @@ export default {
             title: "Your most unhappy customers are your greatest source of learning",
             subtitle: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
             category: "Business, Travel",
-            img : "/images/img5.png",
+            img : "/images/shiba4.jpg",
             description: `
             Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind 
             text by the name of Lorem Ipsum decided to leave for the far World of Grammar.

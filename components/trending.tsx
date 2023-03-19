@@ -1,20 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Author } from './_child/author';
+import { fetcher } from '../lib/fetcher';
+import { BlogPost } from '../types/blogPost';
+import { Spinner } from "./_child/spinner";
+import { Error } from "./_child/error";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay } from 'swiper';
 import 'swiper/css';
 
-const images = [
-    '/images/img1.jpg',
-    '/images/img2.jpg',
-    '/images/img3.png',
-    '/images/articles/img1.jpg',
-    '/images/articles/img2.jpg',
-];
+export const Trending = () => {
 
-export const Section1 = () => {
+    const { data, isLoading, isError } = fetcher('api/trending')
+    if(isLoading) return <Spinner />
+    if(isError) return <Error />
+
     SwiperCore.use([Autoplay]);
     const bg = {
         backgroundImage: "url('/images/banner.png')",
@@ -30,14 +31,14 @@ export const Section1 = () => {
                     slidesPerView={1}
                     loop={true}
                     autoplay={{
-                        delay:2000
+                        delay:4000
                     }}
                 >
-                {images.map((src, index) => (
+                {data ? data.map((post: BlogPost, index: number) => (
                     <SwiperSlide key={index}>
-                        <Slide src={src} />
+                        <Slide postData={post} />
                     </SwiperSlide>
-                ))}
+                )) : null}
                 </Swiper>
                 
             </div>
@@ -45,36 +46,33 @@ export const Section1 = () => {
     );
 }
 
-type SlideProps = {
-    src: string;
-}
-
-function Slide({ src }: SlideProps){
+function Slide({ postData }: { postData: BlogPost}){
+    const { title, category, img, description, published, author } = postData;
     return (
         <div className="grid md:grid-cols-2">
             <div className="image">
                 <Link href={"/posts/page"}>
-                    <Image src={ src } width={640} height={853} alt="PC Image" />
+                    <Image src={ img || "/" } width={480} height={640} alt="blog_img" />
                 </Link>
             </div>
-            <div className="info flex justify-center flex-col">
+            <div className="info flex justify-center flex-col ml-4">
                 <div className="cat">
                     <Link href={"/"}>
-                        <span className="text-orange-600 hover:text-orange-800">Business, Travel</span>
+                        <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
                     </Link>
                     <Link href={"/"}>
-                        <span className="text-gray-800 hover:text-gray-600">- March 15, 2023</span>
+                        <span className="text-gray-800 hover:text-gray-600">- {published || "Unknown"}</span>
                     </Link>
                 </div>
-                <div className="title">
+                <div className="title line-clamp-2">
                     <Link href={"/"}>
-                        <span className="text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">ブログのタイトル</span>
+                        <span className="text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">{ title || "Title" }</span>
                     </Link>
                 </div>
-                <p className="text-gray-500 py-3">
-                    ブログ本文のテキストブログ本文のテキストブログ本文のテキストブログ本文のテキストブログ本文のテキストブログ本文のテキスト
+                <p className="text-gray-500  line-clamp-3">
+                    <span>{ description || "Description" }</span>
                 </p>
-                <Author />
+                { author ? <Author /> : <></> }
             </div>
         </div>
     )
