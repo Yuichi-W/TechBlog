@@ -1,32 +1,15 @@
-import { useEffect, useState } from 'react';
-import { BlogPost } from "../types/blogPost";
-
+import useSWR from 'swr';
 const baseURL = "http://localhost:3000/";
 
-export const Fetcher = ({ endpoint }: { endpoint: string }) => {
-    const [data, setData] = useState<BlogPost[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
+// fetch APIを使ってJSONデータを取得する
+const response = (...args: any[]) => fetch(...args).then(res => res.json()) 
 
-    useEffect(() => {
-        const fetchData = async () => {
-        try {
-            const response = await fetch(`${baseURL}${endpoint}`);
-            const json = await response.json();
-            setData(json);
-            setIsLoading(false);
-        } catch (error) {
-            setIsError(true);
-            setIsLoading(false);
-        }
-        };
-
-        fetchData();
-    }, [endpoint]);
-
+export const Fetcher = (endpoint: string) => {
+    // SWRフックを使用して、キャッシュされたデータを取得する
+    const { data, error } = useSWR(`${baseURL}${endpoint}`, response)
     return {
         data,
-        isLoading,
-        isError,
-    };
-};
+        isLoading : !error && !data,
+        isError : error
+    }
+}

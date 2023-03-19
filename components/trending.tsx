@@ -12,7 +12,7 @@ import 'swiper/css';
 
 export const Trending = () => {
 
-    const { data, isLoading, isError } = Fetcher({ endpoint: 'api/trending' })
+    const { data, isLoading, isError } = Fetcher('api/trending')
     if(isLoading) return <Spinner />
     if(isError) return <Error />
 

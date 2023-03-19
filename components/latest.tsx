@@ -7,7 +7,7 @@ import { Spinner } from "./_child/spinner";
 import { Error } from "./_child/error";
 
 export const Latest = () => {
-    const { data, isLoading, isError } = Fetcher({ endpoint: 'api/posts' })
+    const { data, isLoading, isError } = Fetcher('api/posts')
     if(isLoading) return <Spinner />
     if(isError) return <Error />
 

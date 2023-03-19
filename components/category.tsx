@@ -7,7 +7,7 @@ import { Spinner } from "./_child/spinner";
 import { Error } from "./_child/error";
 
 export const Category = () => {
-    const { data, isLoading, isError } = Fetcher({ endpoint: 'api/popular' })
+    const { data, isLoading, isError } = Fetcher('api/popular')
     if(isLoading) return <Spinner />
     if(isError) return <Error />
     if(!data) return <Spinner />

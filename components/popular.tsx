@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 export const Popular = () => {
-    const { data, isLoading, isError } = Fetcher({ endpoint: 'api/popular' })
+    const { data, isLoading, isError } = Fetcher('api/popular')
     if(isLoading) return <Spinner />
     if(isError) return <Error />
 
