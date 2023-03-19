@@ -10,7 +10,7 @@ export const Category = () => {
     const { data, isLoading, isError } = Fetcher({ endpoint: 'api/popular' })
     if(isLoading) return <Spinner />
     if(isError) return <Error />
-    if (!data) return <div>Loading...</div>
+    if(!data) return <Spinner />
 
     return (
         <section className="container mx-auto md:px-20 py-16">
