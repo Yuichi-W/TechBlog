@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Author } from './_child/author';
-import { fetcher } from "../lib/fetcher";
+import { Fetcher } from "../lib/fetcher";
 import { BlogPost } from "../types/blogPost";
 import { Spinner } from "./_child/spinner";
 import { Error } from "./_child/error";
 
 export const Latest = () => {
-    const { data, isLoading, isError } = fetcher('api/posts')
+    const { data, isLoading, isError } = Fetcher({ endpoint: 'api/posts' })
     if(isLoading) return <Spinner />
     if(isError) return <Error />
 

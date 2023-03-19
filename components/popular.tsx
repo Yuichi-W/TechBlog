@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Author } from './_child/author';
-import { fetcher } from '../lib/fetcher';
+import { Fetcher } from '../lib/fetcher';
 import { BlogPost } from '../types/blogPost';
 import { Spinner } from "./_child/spinner";
 import { Error } from "./_child/error";
@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 export const Popular = () => {
-    const { data, isLoading, isError } = fetcher('api/popular')
+    const { data, isLoading, isError } = Fetcher({ endpoint: 'api/popular' })
     if(isLoading) return <Spinner />
     if(isError) return <Error />
 
