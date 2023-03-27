@@ -47,25 +47,25 @@ export const Trending = () => {
 }
 
 function Slide({ postData }: { postData: BlogPost}){
-    const { title, category, img, description, published, author } = postData;
+    const { id, title, category, img, description, published, author } = postData;
     return (
         <div className="grid md:grid-cols-2">
             <div className="image">
-                <Link href={"/posts/page"}>
+                <Link href={`/posts/${id}`}>
                     <Image src={ img || "/" } width={480} height={640} alt="blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col ml-4">
                 <div className="cat">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
                     </Link>
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-gray-800 hover:text-gray-600">- {published || "Unknown"}</span>
                     </Link>
                 </div>
                 <div className="title line-clamp-2">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">{ title || "Title" }</span>
                     </Link>
                 </div>

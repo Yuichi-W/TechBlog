@@ -24,32 +24,32 @@ export const Latest = () => {
 }
 
 function Post({ postData }: { postData: BlogPost }) {
-    const { title, category, img, description, published, author } = postData;
+    const { id, title, category, img, description, published, author } = postData;
     return (
         <div className="item">
             <div className="images">
-                <Link href={"/"}>
+                <Link href={`/posts/${id}`}>
                     <Image className="rounded" src={img || "/"} width={500} height={350} alt="blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col py-4">
                 <div className="cat">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
                     </Link>
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-gray-800 hover:text-gray-600">- {published || "Unknown"}</span>
                     </Link>
                 </div>
                 <div className="title mb-3 line-clamp-2">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-xl font-bold text-gray-800 hover:text-gray-600">{ title || "Title" }</span>
                     </Link>
                 </div>
                 <p className="text-gray-500 line-clamp-3">
                     <span>{ description || "Description" }</span>
                 </p>
-                { author ? <Author /> :<></> }
+                { author ? <Author {...author} /> : <></> }
             </div>
         </div>
     )

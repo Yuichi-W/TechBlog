@@ -17,8 +17,12 @@ export const Popular = () => {
         <section className="container mx-auto md:px-20 py-16">
             <h1 className="font-bold text-4xl py-12 text-center">Most Popular</h1>
             <Swiper
-                slidesPerView={2}
-                spaceBetween={70}
+                breakpoints={{
+                    640:{
+                        slidesPerView:2,
+                        spaceBetween:30
+                    }
+                }}
             >
                 {data ? data.map((post: BlogPost, index: number) => (
                     <SwiperSlide key={index}>
@@ -31,32 +35,32 @@ export const Popular = () => {
 }
 
 function PopularSlide({ postData }: { postData: BlogPost}){
-    const { title, category, img, description, published, author } = postData;
+    const { id, title, category, img, description, published, author } = postData;
     return (
         <div className="item">
             <div className="images">
-                <Link href={"/"}>
+                <Link href={`/posts/${id}`}>
                     <Image className="rounded" src={ img || "/" } width={500} height={350} alt="Popular_blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col py-4">
                 <div className="cat">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
                     </Link>
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-gray-800 hover:text-gray-600">- {published || "Unknown"}</span>
                     </Link>
                 </div>
                 <div className="title">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-xl font-bold text-gray-800 hover:text-gray-600">{title || "Title"}</span>
                     </Link>
                 </div>
                 <p className="text-gray-500 py-3">
                 {description || "Description"}
                 </p>
-                { author ? <Author /> : <></> }
+                { author ? <Author {...author} /> : <></> }
             </div>
         </div>
     )

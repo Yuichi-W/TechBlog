@@ -37,29 +37,29 @@ export const Category = () => {
 }
 
 function CategoryPost({ postData }: { postData: BlogPost}){
-    const { title, category, img, published, author } = postData;
+    const { id, title, category, img, published, author } = postData;
     return (
         <div className="flex gap-5">
             <div className="image flex flex-col justify-start">
-                <Link href={"/"}>
+                <Link href={`/posts/${id}`}>
                     <Image className="rounded" src={ img || "/" } width={300} height={250} alt="Category_blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col">
                 <div className="cat">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
                     </Link>
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-gray-800 hover:text-gray-600">- {published || "Unknown"}</span>
                     </Link>
                 </div>
                 <div className="title">
-                    <Link href={"/"}>
+                    <Link href={`/posts/${id}`}>
                         <span className="text-xl font-bold text-gray-800 hover:text-gray-600">{title || "Title"}</span>
                     </Link>
                 </div>
-                {author ? <Author /> : <></> }
+                { author ? <Author {...author} /> : <></> }
             </div>
         </div>
     )
