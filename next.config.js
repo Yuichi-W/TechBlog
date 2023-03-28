@@ -2,8 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost'], // 画像を置いているドメイン
+      domains: ['images.microcms-assets.io'],
   },
-}
+  env: {
+    API_KEY: process.env.API_KEY,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
