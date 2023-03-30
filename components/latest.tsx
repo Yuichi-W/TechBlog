@@ -3,17 +3,19 @@ import Image from "next/image";
 import { Author } from './_child/author';
 import type { Blog } from '../types/blog';
 
+
 type Props = {
-    latestBlogs: Array<Blog>;
+    blogs: Array<Blog>;
 };
 
-export const Latest = ({ latestBlogs }: Props) => {
+
+export const Latest = ({ blogs }: Props) => {
 
     return (
         <section className="container mx-auto md:px-20 py-10">
             <h1 className="font-bold text-4xl py-12 text-center">Latest Posts</h1>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-14">
-            {latestBlogs && latestBlogs.map((post: Blog, index: number) => (
+            {blogs && blogs.map((post: Blog, index: number) => (
                 <Post key={index} postData={post} />
             ))}
             </div>

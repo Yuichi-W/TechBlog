@@ -1,94 +1,78 @@
 import { Format } from '../../layout/format'
-import { Author } from '../../components/_child/author'
 import Image from 'next/image'
-import { Ralated } from '../../components/_child/ralated'
-import { getPost } from '../../lib/helper'
+// import { Ralated } from '../../components/_child/ralated'
 import { BlogPost } from "../../types/blogPost"
-import { Fetcher } from '../../lib/fetcher'
-import { Spinner } from '../../components/_child/spinner'
-import { Error } from '../../components/_child/error'
-import { useRouter } from 'next/router'
-import { SWRConfig } from 'swr'
+import type { Highlightbody } from '../../types/highlightbody';
+import { client } from "../../lib/client";
+import { load } from "cheerio";
+import hljs from 'highlight.js'
 
 type Props = {
-    title: string;
-    subtitle: string;
-    img: string;
-    description: string;
-    author?: BlogPost['author'];
-};
+    blog: BlogPost;
+    highlightbody: Highlightbody;
+  };
 
-type Params = {
-    params: {
-        postId: number;
-    };
-};
-
-export default function Page({ fallback }){
-
-    const router = useRouter()
-    const { postId } = router.query;
-    const { data, isLoading, isError } = Fetcher(`api/posts/${postId}`)
-
-    if(isLoading) return <Spinner/>
-    if(isError) return <Error/>
-
-    return (
-        <SWRConfig value={ { fallback }}>
-            <Article {...data} />
-        </SWRConfig>
-    )
-}
-
-function Article({ title, subtitle, img, description, author }: Props) {
+export default function Article({ blog, highlightbody }: Props) {
+    console.log(blog)
+    // console.log(highlightbody)
     return (
         <Format>
             <section className='container mx-auto md:px-2 py-16 w-1/2'>
                 <div className='flex justify-center'>
-                { author ? <Author></Author> : <></>}
+                {/* { author ? <Author></Author> : <></>} */}
                 </div>
                 <div className="post py-10">
-                    <h1 className='font-bold text-4xl text-center pb-5'>{title || "No Title"}</h1>
-
-                    <p className='text-gray-500 text-xl text-center'>{subtitle || "No Title"}</p>
-
+                    <h1 className='font-bold text-4xl text-center pb-5'>{blog.title || "No Title"}</h1>
                     <div className="py-10">
-                        <Image src={img || "/"} width={900} height={600} alt="pageBlogImg"></Image>
+                        <Image src={blog.img.url || "/"} width={900} height={600} alt="pageBlogImg"></Image>
                     </div>
-
-                    <div className="content text-gray-600 text-lg flex flex-col gap-4">
-                        {description || "No Description"}
+                    <div 
+                        dangerouslySetInnerHTML={{ __html: `${highlightbody}` }}
+                        className="content text-gray-600 text-lg flex flex-col gap-4"
+                    >
                     </div>
                 </div>  
-                <Ralated></Ralated>
+                {/* <Ralated></Ralated> */}
             </section>
         </Format>
     )
 }
 
-export async function getStaticProps( { params }: Params ){
-    const posts = await getPost(params.postId)
-    return {
-        props : {
-            fallback : {
-                '/api/posts' : posts
-            }
+// ssgでパスを取得
+export const getStaticPaths = async () => {
+    const data = await client.get({
+        endpoint: 'blogs',
+        queries: {
+        limit: 10000
         }
-    }
-}
-
-export async function getStaticPaths(){
-    const posts = await getPost();
-    const paths = posts.map((value: BlogPost) => {
-        return {
-            params : {
-                postId : value.id.toString()
-            }
-        }
-    })
-
+    });
+    const paths = data.contents.map((content: { id: string; }) => `/posts/${content.id}`);
     return {
         paths,
-        fallback : false
-    }
-}
+        fallback: false,
+    };
+};
+
+export const getStaticProps = async (context: any) => {
+    const id = context.params.postId;
+    const data = await client.get({
+        endpoint: 'blogs',
+        contentId: id,
+    });
+
+    // シンタックスハイライト処理
+    const $ = load(data.content);  // data.contentはmicroCMSから返されるリッチエディタ部分
+    $('pre code').each((_, elm) => {
+        const result = hljs.highlightAuto($(elm).text());
+        $(elm).html(result.value);
+        $(elm).addClass('hljs');
+    });
+    data.content = $.html();
+
+    return {
+        props: {
+            blog: data,
+            highlightbody: data.content
+        },
+    };
+};

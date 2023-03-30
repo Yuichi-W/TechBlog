@@ -3,7 +3,9 @@ export type BlogPost = {
     title: string;
     subtitle: string;
     category: string;
-    img: string;
+    img: {
+        url: string;
+    }
     description: string;
     published: string;
     author: {
