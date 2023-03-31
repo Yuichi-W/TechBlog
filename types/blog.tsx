@@ -12,6 +12,13 @@ export type Blog = {
       height: number
       width: number
     }
-    category: string
+    category: string[]
     type: string
+    authorDirector: string
+    authorName: string
+    authorImg: {
+      url: string
+      height: number
+      width: number
+    }
 }

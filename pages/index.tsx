@@ -15,10 +15,12 @@ type Props = {
 };
 
 export default function Home({ latestBlogs, trendBlogs, popularBlogs, categoryBlogs }: Props) {
-  console.log(latestBlogs, trendBlogs, popularBlogs, categoryBlogs);
+  console.log(latestBlogs)
+  console.log('111')
+  console.log(trendBlogs)
   return (
     <Format>
-      {/* <Trending blogs={trendBlogs} /> */}
+      <Trending blogs={trendBlogs} />
       <Latest blogs={latestBlogs} />
       {/* <Popular blogs={popularBlogs} /> */}
       {/* <Category blogs={categoryBlogs} /> */}
@@ -36,11 +38,19 @@ export const getStaticProps = async () => {
   const latestBlogs = latestData.contents;
 
   // トレンドのブログ記事をtypeがtrendのものから15件取得
+  // const trendData = await client.get({
+  //     endpoint: 'blogs', queries: {
+  //         filters: `type[equals]trend`, orders: '-createdAt', limit: 15 
+  //     } 
+  // });
   const trendData = await client.get({
-      endpoint: 'blogs', queries: {
-          filters: `type[equals]trend`, orders: '-createdAt', limit: 15 
-      } 
-  });
+    endpoint: 'blogs',
+    queries: {
+        filters: 'type[equals]trend',
+        limit: 15,
+        orders: '-createdAt'
+    }
+});
   const trendBlogs = trendData.contents;
 
   // 人気のブログ記事をtypeがpopularのものから15件取得

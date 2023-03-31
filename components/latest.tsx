@@ -1,16 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Author } from './_child/author';
 import type { Blog } from '../types/blog';
-
+import { Author } from './_child/author';
 
 type Props = {
     blogs: Array<Blog>;
 };
 
-
 export const Latest = ({ blogs }: Props) => {
-
     return (
         <section className="container mx-auto md:px-20 py-10">
             <h1 className="font-bold text-4xl py-12 text-center">Latest Posts</h1>
@@ -24,8 +21,18 @@ export const Latest = ({ blogs }: Props) => {
 }
 
 function Post({ postData }: { postData: Blog }) {
-    console.log(postData);
-    const { id, title, category, img, description, publishedAt} = postData;
+    const {
+        id,
+        title,
+        category,
+        img,
+        description,
+        publishedAt,
+        authorDirector,
+        authorImg,
+        authorName,
+    } = postData;
+    // console.log(postData)
     // タイムスタンプをDateオブジェクトに変換する
     const date = new Date(publishedAt);
     // 年月日を取得する
@@ -46,8 +53,10 @@ function Post({ postData }: { postData: Blog }) {
             <div className="info flex justify-center flex-col py-4">
                 <div className="cat">
                     <Link href={`/posts/${id}`}>
-                        <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
+                        <span className="text-orange-600 hover:text-orange-800">{category.join(", ") || "Unknown"}</span>
                     </Link>
+                </div>
+                <div className="cat">
                     <Link href={`/posts/${id}`}>
                         <span className="text-gray-800 hover:text-gray-600">- {formattedDate || "Unknown"}</span>
                     </Link>
@@ -60,6 +69,11 @@ function Post({ postData }: { postData: Blog }) {
                 <p className="text-gray-500 line-clamp-3">
                     <span>{ description || "description" }</span>
                 </p>
+                <Author
+                    authorName={authorName}
+                    authorDirector={authorDirector}
+                    authorImg={authorImg}
+                />
             </div>
         </div>
     )
