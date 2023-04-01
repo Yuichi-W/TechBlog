@@ -15,14 +15,12 @@ type Props = {
 };
 
 export default function Home({ trendBlogs, latestBlogs, popularBlogs, categoryBlogs }: Props) {
-  console.log(latestBlogs)
-  // console.log(trendBlogs)
   return (
     <Format>
       <Trending blogs={trendBlogs} />
       <Latest blogs={latestBlogs} />
       <Popular blogs={popularBlogs} />
-      <Category blogs={categoryBlogs} />
+      <Category blogs={categoryBlogs as Record<string, Blog[]>} />
     </Format>
   )
 }
@@ -35,7 +33,8 @@ export const getStaticProps = async () => {
       orders: '-createdAt', limit: 100 // 100件取得
     }
   });
-  const allBlogs = allData.contents;
+  // const allBlogs = allData.contents;
+  const allBlogs: Blog[] = allData.contents;
 
   // 最新のブログ記事を15件取得し「latestBlogs」に格納
   const latestBlogs = allBlogs.slice(0, 15);

@@ -1,48 +1,63 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Author } from './_child/author';
-import { Fetcher } from '../lib/fetcher';
-import { BlogPost } from '../types/blogPost';
-import { Spinner } from "./_child/spinner";
-import { Error } from "./_child/error";
+import type { Blog } from '../types/blog';
 
-export const Category = () => {
-    const { data, isLoading, isError } = Fetcher('api/popular')
-    if(isLoading) return <Spinner />
-    if(isError) return <Error />
-    if(!data) return <Spinner />
+type Props = {
+    blogs: Record<string, Blog[]>;
+};
 
+export const Category = ({ blogs }: Props) => {
+
+    const categorizedBlogs: { [key: string]: any[] } = {};
+    Object.keys(blogs).forEach((category) => {
+        categorizedBlogs[category] = blogs[category];
+    });
+
+    
     return (
         <section className="container mx-auto md:px-20 py-16">
-            <div className="grid lg:grid-cols-2">
-                <div className="item">
-                    <h1 className="font-bold text-4xl py-12">Business</h1>
-                    <div className="flex flex-col gap-6">
-                        { data[1] ? <CategoryPost postData={data[1]} /> : <></>}
-                        { data[2] ? <CategoryPost postData={data[2]} /> : <></>}
-                        { data[3] ? <CategoryPost postData={data[3]} /> : <></>}
+            <div className="grid lg:grid-cols-2 gap-14">
+                {Object.entries(categorizedBlogs).map(([category, blogs]) => (
+                    <div className="item" key={category}>
+                        <h1 className="font-bold text-4xl py-12 line-clamp-2">{category}</h1>
+                        <div className="flex flex-col gap-6">
+                            {blogs.map(blog => (
+                                <CategoryPost key={blog.id} postData={blog} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <div className="item">
-                    <h1 className="font-bold text-4xl py-12">Travel</h1>
-                    <div className="flex flex-col gap-6">
-                        { data[4] ? <CategoryPost postData={data[4]} /> : <></>}
-                        { data[5] ? <CategoryPost postData={data[5]} /> : <></>}
-                        { data[2] ? <CategoryPost postData={data[2]} /> : <></>}
-                    </div>
-                </div>
+                ))} 
             </div>
         </section>
     )
 }
 
-function CategoryPost({ postData }: { postData: BlogPost}){
-    const { id, title, category, img, published, author } = postData;
+function CategoryPost({ postData }: { postData: Blog }) {
+    const {
+        id,
+        title,
+        category,
+        img,
+        publishedAt,
+        authorDirector,
+        authorImg,
+        authorName,
+    } = postData;        
+    // タイムスタンプをDateオブジェクトに変換する
+    const date = new Date(publishedAt);
+    // 年月日を取得する
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 月は0から始まるため、1を足す必要がある
+    const day = date.getDate();
+
+    // 日付文字列にフォーマットする
+    const formattedDate = `${year}年${month}月${day}日`;
     return (
         <div className="flex gap-5">
             <div className="image flex flex-col justify-start">
                 <Link href={`/posts/${id}`}>
-                    <Image className="rounded" src={ img || "/" } width={300} height={250} alt="Category_blog_img" />
+                    <Image className="rounded" src={ img.url || "/" } width={280} height={200} alt="Category_blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col">
@@ -50,8 +65,10 @@ function CategoryPost({ postData }: { postData: BlogPost}){
                     <Link href={`/posts/${id}`}>
                         <span className="text-orange-600 hover:text-orange-800">{category || "Unknown"}</span>
                     </Link>
+                </div>
+                <div className="cat">
                     <Link href={`/posts/${id}`}>
-                        <span className="text-gray-800 hover:text-gray-600">- {published || "Unknown"}</span>
+                        <span className="text-gray-800 hover:text-gray-600">- {formattedDate || "Unknown"}</span>
                     </Link>
                 </div>
                 <div className="title">
@@ -59,7 +76,11 @@ function CategoryPost({ postData }: { postData: BlogPost}){
                         <span className="text-xl font-bold text-gray-800 hover:text-gray-600">{title || "Title"}</span>
                     </Link>
                 </div>
-                { author ? <Author {...author} /> : <></> }
+                <Author
+                    authorName={authorName}
+                    authorDirector={authorDirector}
+                    authorImg={authorImg}
+                />
             </div>
         </div>
     )
