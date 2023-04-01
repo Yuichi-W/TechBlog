@@ -47,7 +47,7 @@ function Post({ postData }: { postData: Blog }) {
         <div className="item">
             <div className="images">
                 <Link href={`/posts/${id}`}>
-                    <Image className="rounded" src={img.url || "/"} width={500} height={500} alt="blog_img" />
+                    <Image className="rounded" src={img.url || "/"} width={600} height={500} alt="blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col py-4">

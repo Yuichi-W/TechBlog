@@ -1,11 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Author } from './_child/author';
-// import { Fetcher } from '../lib/fetcher';
-// import { BlogPost } from '../types/blogPost';
-// import { Spinner } from "./_child/spinner";
-// import { Error } from "./_child/error";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay } from 'swiper';
 import 'swiper/css';
@@ -17,7 +12,8 @@ type Props = {
 };
 
 export const Trending = ({ blogs }: Props) => {
-    if(blogs) return <></>;
+    // 配列が空の場合は何も表示しない
+    if (blogs.length === 0) return null;
     SwiperCore.use([Autoplay]);
     const bg = {
         backgroundImage: "url('/images/banner.png')",
@@ -58,7 +54,6 @@ function Slide({ postData }: { postData: Blog }) {
         authorImg,
         authorName,
     } = postData;
-    console.log(postData)
     // タイムスタンプをDateオブジェクトに変換する
     const date = new Date(publishedAt);
     // 年月日を取得する
@@ -72,7 +67,7 @@ function Slide({ postData }: { postData: Blog }) {
         <div className="grid md:grid-cols-2">
             <div className="image">
                 <Link href={`/posts/${id}`}>
-                    <Image src={ img.url || "/" } width={480} height={640} alt="blog_img" />
+                    <Image src={ img.url || "/" } width={500} height={500} alt="blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col ml-4">
@@ -80,13 +75,15 @@ function Slide({ postData }: { postData: Blog }) {
                     <Link href={`/posts/${id}`}>
                         <span className="text-orange-600 hover:text-orange-800">{category.join(", ") || "Unknown"}</span>
                     </Link>
+                </div>
+                <div className="cat">
                     <Link href={`/posts/${id}`}>
                         <span className="text-gray-800 hover:text-gray-600">- {formattedDate || "Unknown"}</span>
                     </Link>
                 </div>
                 <div className="title line-clamp-2">
                     <Link href={`/posts/${id}`}>
-                        <span className="text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">{ title || "Title" }</span>
+                        <span className="line-clamp-2 text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600">{ title || "Title" }</span>
                     </Link>
                 </div>
                 <p className="text-gray-500  line-clamp-3">

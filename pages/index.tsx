@@ -14,61 +14,44 @@ type Props = {
   categoryBlogs: Record<string, Array<Blog>>; // categoryごとに分けた配列を持つオブジェクト
 };
 
-export default function Home({ latestBlogs, trendBlogs, popularBlogs, categoryBlogs }: Props) {
+export default function Home({ trendBlogs, latestBlogs, popularBlogs, categoryBlogs }: Props) {
   console.log(latestBlogs)
-  console.log('111')
-  console.log(trendBlogs)
+  // console.log(trendBlogs)
   return (
     <Format>
       <Trending blogs={trendBlogs} />
       <Latest blogs={latestBlogs} />
-      {/* <Popular blogs={popularBlogs} /> */}
-      {/* <Category blogs={categoryBlogs} /> */}
+      <Popular blogs={popularBlogs} />
+      <Category blogs={categoryBlogs} />
     </Format>
   )
 }
 
 export const getStaticProps = async () => {
-  // 最新のブログ記事を15件取得
-  const latestData = await client.get({
-      endpoint: 'blogs', queries: {
-        orders: '-createdAt', limit: 15 
-      } 
-    });
-  const latestBlogs = latestData.contents;
-
-  // トレンドのブログ記事をtypeがtrendのものから15件取得
-  // const trendData = await client.get({
-  //     endpoint: 'blogs', queries: {
-  //         filters: `type[equals]trend`, orders: '-createdAt', limit: 15 
-  //     } 
-  // });
-  const trendData = await client.get({
+  // APIからブログデータを全て取得
+  const allData = await client.get({
     endpoint: 'blogs',
     queries: {
-        filters: 'type[equals]trend',
-        limit: 15,
-        orders: '-createdAt'
+      orders: '-createdAt', limit: 100 // 100件取得
     }
-});
-  const trendBlogs = trendData.contents;
-
-  // 人気のブログ記事をtypeがpopularのものから15件取得
-  const popularData = await client.get({
-      endpoint: 'blogs', queries: {
-        filters: `type[equals]popular`, orders: '-createdAt', limit: 15 
-      } 
   });
-  const popularBlogs = popularData.contents;
+  const allBlogs = allData.contents;
 
-  // カテゴリーごとにブログ記事を取得
-  const categoryBlogsData = await client.get({
-      endpoint: 'blogs', queries: {
-          orders: '-createdAt', limit: 100 // 100件取得
-      }
-  });
+  // 最新のブログ記事を15件取得し「latestBlogs」に格納
+  const latestBlogs = allBlogs.slice(0, 15);
+
+  // ブログ種別（type）がtrenddeあるデータを取得し「trendBlogs」に格納する
+  const trendData = allBlogs.filter((blog) => blog.type.includes('trend'));
+  const trendBlogs = trendData.slice(0, 10);
+
+  // ブログ種別（type）がpopularのものから15件取得し「popularBlogs」に格納
+  const popularData: Array<Blog> = allBlogs.filter(blog => blog.type.includes('popular'));
+  // 最新順に15件取得し「popularBlogs」に格納
+  const popularBlogs: Array<Blog> = popularData.slice(0, 10);
+
+  // カテゴリーごとにデータを整理し「categoryBlogs」に格納
   const categoryBlogs: Record<string, Array<Blog>> = {}; // categoryごとに分けたオブジェクトを用意
-  categoryBlogsData.contents.forEach((blog) => {
+  allBlogs.forEach((blog) => {
     if (categoryBlogs[blog.category]) {
       // すでにカテゴリーの配列があれば追加
       categoryBlogs[blog.category].push(blog);

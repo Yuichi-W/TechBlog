@@ -12,7 +12,7 @@ export const Header = () => {
                 </div>
                 <div className="shrink w-80 sm:order-2">
                     <Link href={"/"}>
-                        <span className="font-bold uppercase text-3xl">Design</span>
+                        <span className="font-bold uppercase text-3xl">Pikimaru Blog</span>
                     </Link>
                 </div>
                 <div className="w-96 order-3 flex justify-center">
