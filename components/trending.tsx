@@ -16,7 +16,7 @@ export const Trending = ({ blogs }: Props) => {
     if (blogs.length === 0) return null;
     SwiperCore.use([Autoplay]);
     const bg = {
-        backgroundImage: "url('/images/banner.png')",
+        backgroundImage: "url('/images/background.png')",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "right"
     }

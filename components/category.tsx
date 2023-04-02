@@ -50,14 +50,14 @@ function CategoryPost({ postData }: { postData: Blog }) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // 月は0から始まるため、1を足す必要がある
     const day = date.getDate();
-
     // 日付文字列にフォーマットする
     const formattedDate = `${year}年${month}月${day}日`;
+
     return (
         <div className="flex gap-5">
             <div className="image flex flex-col justify-start">
                 <Link href={`/posts/${id}`}>
-                    <Image className="rounded" src={ img.url || "/" } width={280} height={200} alt="Category_blog_img" />
+                    <Image className="rounded" style={{ maxWidth: "none", height: "150px" }} src={ img.url || "/" } width={200} height={200} alt="Category_blog_img" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col">
@@ -71,7 +71,7 @@ function CategoryPost({ postData }: { postData: Blog }) {
                         <span className="text-gray-800 hover:text-gray-600">- {formattedDate || "Unknown"}</span>
                     </Link>
                 </div>
-                <div className="title">
+                <div className="title line-clamp-2">
                     <Link href={`/posts/${id}`}>
                         <span className="text-xl font-bold text-gray-800 hover:text-gray-600">{title || "Title"}</span>
                     </Link>

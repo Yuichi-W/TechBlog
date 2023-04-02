@@ -1,30 +1,42 @@
 import { Format } from '../../layout/format'
 import Image from 'next/image'
-// import { Ralated } from '../../components/_child/ralated'
-import { BlogPost } from "../../types/blogPost"
+import { Ralated } from '../../components/_child/ralated'
+import type { Blog } from '../../types/blog';
 import type { Highlightbody } from '../../types/highlightbody';
 import { client } from "../../lib/client";
 import { load } from "cheerio";
 import hljs from 'highlight.js'
+import { Author } from '../../components/_child/author';
 
 type Props = {
-    blog: BlogPost;
+    ralateBlogs: Array<Blog>;
+    blog: Blog;
     highlightbody: Highlightbody;
-  };
+};
 
-export default function Article({ blog, highlightbody }: Props) {
-    console.log(blog)
-    // console.log(highlightbody)
+export default function Article({ ralateBlogs, blog, highlightbody }: Props) {
+    console.log(ralateBlogs)
+    const {
+        title,
+        img,
+        authorDirector,
+        authorImg,
+        authorName,
+    } = blog;
     return (
         <Format>
             <section className='container mx-auto md:px-2 py-16 w-1/2'>
                 <div className='flex justify-center'>
-                {/* { author ? <Author></Author> : <></>} */}
+                <Author
+                    authorName={authorName}
+                    authorDirector={authorDirector}
+                    authorImg={authorImg}
+                />
                 </div>
                 <div className="post py-10">
-                    <h1 className='font-bold text-4xl text-center pb-5'>{blog.title || "No Title"}</h1>
+                    <h1 className='font-bold text-4xl text-center pb-5'>{title || "No Title"}</h1>
                     <div className="py-10">
-                        <Image src={blog.img.url || "/"} width={900} height={600} alt="pageBlogImg"></Image>
+                        <Image src={img.url || "/"} width={900} height={600} alt="pageBlogImg"></Image>
                     </div>
                     <div 
                         dangerouslySetInnerHTML={{ __html: `${highlightbody}` }}
@@ -32,7 +44,7 @@ export default function Article({ blog, highlightbody }: Props) {
                     >
                     </div>
                 </div>  
-                {/* <Ralated></Ralated> */}
+                <Ralated blogs={ralateBlogs} />
             </section>
         </Format>
     )
@@ -53,12 +65,23 @@ export const getStaticPaths = async () => {
     };
 };
 
+// 指定のブログ情報取得
 export const getStaticProps = async (context: any) => {
     const id = context.params.postId;
     const data = await client.get({
         endpoint: 'blogs',
         contentId: id,
     });
+
+    // 最新のブログ記事を10件取得
+    const ralatedData = await client.get({
+        endpoint: 'blogs',
+        queries: {
+        orders: '-createdAt', limit: 10
+        }
+    });
+
+    const ralateBlogs = ralatedData.contents;
 
     // シンタックスハイライト処理
     const $ = load(data.content);  // data.contentはmicroCMSから返されるリッチエディタ部分
@@ -71,6 +94,7 @@ export const getStaticProps = async (context: any) => {
 
     return {
         props: {
+            ralateBlogs,
             blog: data,
             highlightbody: data.content
         },
