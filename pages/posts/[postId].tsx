@@ -15,7 +15,6 @@ type Props = {
 };
 
 export default function Article({ ralateBlogs, blog, highlightbody }: Props) {
-    console.log(ralateBlogs)
     const {
         title,
         img,

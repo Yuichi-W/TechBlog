@@ -51,13 +51,16 @@ export const getStaticProps = async () => {
   // カテゴリーごとにデータを整理し「categoryBlogs」に格納
   const categoryBlogs: Record<string, Array<Blog>> = {}; // categoryごとに分けたオブジェクトを用意
   allBlogs.forEach((blog) => {
-    if (categoryBlogs[blog.category]) {
-      // すでにカテゴリーの配列があれば追加
-      categoryBlogs[blog.category].push(blog);
-    } else {
-      // カテゴリーの配列がなければ新しく作成
-      categoryBlogs[blog.category] = [blog];
-    }
+    blog.category.forEach((category) => {
+      const key = category.toString(); // カテゴリを文字列に変換
+      if (categoryBlogs[key]) {
+        // すでにカテゴリーの配列があれば追加
+        categoryBlogs[key].push(blog);
+      } else {
+        // 配列がなければ新しく作成
+        categoryBlogs[key] = [blog];
+      }
+    });
   });
 
   return {
