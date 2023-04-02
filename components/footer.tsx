@@ -6,15 +6,9 @@ import { Newslatter } from "./_child/newslatter";
 
 export const Footer = () => {
 
-    const bg = {
-        backgroundImage : "url('/images/footer.png')",
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: "bottom left"
-    }
-
     return (
-        <footer className="bg-gray-50" style={bg}>
-        <Newslatter></Newslatter>
+        <footer className="bg-gray-50">
+        {/* <Newslatter></Newslatter> */}
         <div className="container mx-auto flex justify-center py-12">
             <div className="py-5">
                 <div className="flex gap-6 justify-center">
