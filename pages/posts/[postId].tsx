@@ -25,7 +25,7 @@ export default function Article({ ralateBlogs, blog, highlightbody }: Props) {
     } = blog;
     return (
         <Format>
-            <section className='container mx-auto md:px-2 py-16 w-1/2'>
+            <section className='container mx-auto md:px-2 py-16 w-2/3'>
                 <div className='flex justify-center'>
                 <Author
                     authorName={authorName}

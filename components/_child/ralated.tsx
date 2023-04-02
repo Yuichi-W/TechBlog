@@ -10,7 +10,7 @@ type Props = {
 export const Ralated = ({ blogs }: Props) => {
     return (
         <section className="pt-20">
-            <h1 className="font-bold text-3xl py-10">Related</h1>
+            <h1 className="text-center font-bold text-3xl py-10">Related</h1>
 
             <div className="flex flex-col gap-10">
                 {blogs && blogs.map((post: Blog, index: number) => (
@@ -37,7 +37,7 @@ function Post({ postData }: { postData: Blog }) {
         <div className="flex gap-5">
             <div className="image flex flex-col justify-start">
                 <Link href={`/posts/${id}`}>
-                    <Image src={img.url || "/"} className="rounded" width={300} height={200} alt="blogImg" />
+                    <Image src={img.url || "/"} className="rounded" style={{ maxWidth: "none", height: "200px" }} width={300} height={200} alt="blogImg" />
                 </Link>
             </div>
             <div className="info flex justify-center flex-col">
